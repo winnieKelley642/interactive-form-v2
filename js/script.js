@@ -1,6 +1,15 @@
-console.log(`script.js is linked.`);
+'use strict'
+//global variables:
+const nameField = document.querySelector('#name');
+const emailField = document.querySelector('#mail');
+
+//Add placeholders
+nameField.placeholder = 'Please enter your name';
+emailField.placeholder = 'Please enter a valid email';
+
 //1. Set focus on first text field when the page is loads.
     //1a. Should be focused by default
+nameField.focus();
 
 /**
  * Job Role Selection
