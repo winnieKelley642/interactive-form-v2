@@ -2,6 +2,8 @@
 //global variables:
 const nameField = document.querySelector('#name');
 const emailField = document.querySelector('#mail');
+const otherJobRole = document.querySelector('#other-title');
+const jobRoleSelection = document.querySelector('#title');
 
 //Add placeholders
 nameField.placeholder = 'Please enter your name';
@@ -10,16 +12,35 @@ emailField.placeholder = 'Please enter a valid email';
 //1. Set focus on first text field when the page is loads.
     //1a. Should be focused by default
 nameField.focus();
+nameField.style.backgroundColor = 'limegreen';
 
 /**
  * Job Role Selection
  * Note: You'll need to add the "Other" job role input directly into the HTML and hide it initially
  * with JS in order to get this feature to work when JS is disabled, which is a requirement below.
  */
+//Do not display the other text field
+otherJobRole.style.display = 'none';
+console.log(jobRoleSelection);
+
 //2. In the Job Role drop down menu, when "Other" is selected
-    //2a. Display text field
-    //2b. set text field id = "other-title"
-    //2c. set placeholder to "Your Job Role"
+//check for what the user selected
+for(let i = 0; i < jobRoleSelection.clientHeight; i++){
+    //add event listener to change of dropdown selection
+    jobRoleSelection.addEventListener('change', (e) => {
+        console.log(`user's selction of job role is ${jobRoleSelection.value}`);
+        if(e.target.value === 'other'){
+            //2a. Display text field
+            console.log(`in other job role display loop`);
+            otherJobRole.style.display = 'block';
+        } else{
+            //hide the text field if not 'other'
+            otherJobRole.style.display = 'none';
+        }
+    });
+}
+    //2b. set text field id = "other-title" <-- done in html
+    //2c. set placeholder to "Your Job Role" <-- done in html
 
 /** 
  * T-Shirt Info
