@@ -4,6 +4,8 @@ const nameField = document.querySelector('#name');
 const emailField = document.querySelector('#mail');
 const otherJobRole = document.querySelector('#other-title');
 const jobRoleSelection = document.querySelector('#title');
+const listOfColors = document.querySelector('#color');
+const design = document.querySelector('#design');
 
 //Add placeholders
 nameField.placeholder = 'Please enter your name';
@@ -25,7 +27,7 @@ console.log(jobRoleSelection);
 
 //2. In the Job Role drop down menu, when "Other" is selected
 //check for what the user selected
-for(let i = 0; i < jobRoleSelection.clientHeight; i++){
+for(let i = 0; i < jobRoleSelection.length; i++){
     //add event listener to change of dropdown selection
     jobRoleSelection.addEventListener('change', (e) => {
         console.log(`user's selction of job role is ${jobRoleSelection.value}`);
@@ -47,12 +49,65 @@ for(let i = 0; i < jobRoleSelection.clientHeight; i++){
  */
 //3. Hide colour options in the "Color" drop down list until theme is selected from "Design menu"
     //3b. set "Color" field to read "Please select a T-shirt theme".
+//create 'Please select a T-shirt theme' option first:
+//create "Please select a T-shirt theme" option first:
+const selectThemeFirstElement = document.createElement('option');
+selectThemeFirstElement.setAttribute('value','selectThemeFirst');
+selectThemeFirstElement.innerHTML = 'Please select a T-shirt theme';
+listOfColors.appendChild(selectThemeFirstElement);
+
+//set selectThemeFirstElement as what to display and hide the rest
+listOfColors[6].selected = true;
+listOfColors[0].hidden = true;
+listOfColors[1].hidden = true;
+listOfColors[2].hidden = true;
+listOfColors[3].hidden = true;
+listOfColors[4].hidden = true;
+listOfColors[5].hidden = true;
+listOfColors[6].hidden = false;
 
 //4. After theme is selected only display colour options that match the design selected in the "Design" menu.
     //4a. Theme - JS Puns = "Cornflower Blue", "Dark Slate Grey" and "Gold"
     //4b. Theme - I ♥ JS = "Tomato", "Steel Blue" and "Dim Grey"
     //4c. Update theme and colours as theme is selected.
-
+//add event listener to design drop down menu
+design.addEventListener('change', (e) =>{
+    console.log(`design chosen is: ${design.value}`);
+    console.log(e.target.value);
+    //if user selects selectTheme
+    if(e.target.value === 'Select Theme'){
+        listOfColors[6].selected = true;
+        listOfColors[0].hidden = true;
+        listOfColors[1].hidden = true;
+        listOfColors[2].hidden = true;
+        listOfColors[3].hidden = true;
+        listOfColors[4].hidden = true;
+        listOfColors[5].hidden = true;
+        listOfColors[6].hidden = false;
+    }
+    //if user selects js puns
+    if(e.target.value === 'js puns'){
+        listOfColors[0].selected = true;
+        listOfColors[0].hidden = false;
+        listOfColors[1].hidden = false;
+        listOfColors[2].hidden = false;
+        listOfColors[3].hidden = true;
+        listOfColors[4].hidden = true;
+        listOfColors[5].hidden = true;
+        listOfColors[6].hidden = true;
+    }
+    //if user selects heart js
+    if(e.target.value === 'heart js'){
+        listOfColors[3].selected = true;
+        listOfColors[0].hidden = true;
+        listOfColors[1].hidden = true;
+        listOfColors[2].hidden = true;
+        listOfColors[3].hidden = false;
+        listOfColors[4].hidden = false;
+        listOfColors[5].hidden = false;
+        listOfColors[6].hidden = true;
+    }
+});
 /**
  * Register for Activities section
  */
