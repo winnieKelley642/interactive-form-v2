@@ -53,7 +53,6 @@ for(let i = 0; i < jobRoleSelection.length; i++){
  */
 //3. Hide colour options in the "Color" drop down list until theme is selected from "Design menu"
     //3b. set "Color" field to read "Please select a T-shirt theme".
-//create 'Please select a T-shirt theme' option first:
 //create "Please select a T-shirt theme" option first:
 const selectThemeFirstElement = document.createElement('option');
 selectThemeFirstElement.setAttribute('value','selectThemeFirst');
@@ -118,6 +117,13 @@ design.addEventListener('change', (e) =>{
 //5. Don't allow user to select a workshop that is at the same day and time as selected
     //5a. disable checkbox and visually indicate that it is not available. 
     //5b. when user uncheck a checkbox, make sure disabled checkboxes are enabled.
+//6. When user clicks on an activity, a running total should display below the list
+//set total to 0 to start, set this up before evenListener so that it can be called in the event listener.
+let total = 0;
+const totalElement = document.createElement('p');
+totalElement.textContent = (`Total Cost: $${total}`);
+activityList.appendChild(totalElement);
+
 //add event listener to checkbox:
 activityList.addEventListener('change', (e)=>{
     let checked = e.target;
@@ -126,6 +132,7 @@ activityList.addEventListener('change', (e)=>{
     let selectedDayTime = checked.getAttribute('data-day-and-time');
     console.log(selectedDayTime);
 
+    //dissable and enabling the right activities
     console.log(activities.length);
     for(let i = 0; i < activities.length; i++){
         console.log(`in for loop for activities`);
@@ -142,8 +149,21 @@ activityList.addEventListener('change', (e)=>{
             }
         }
     }
+    //calculate cost
+    let activityCost = parseInt(checked.getAttribute('data-cost'));
+    console.log(`cost is ${activityCost}`);
+    console.log(`current total is ${total}`);
+
+    if(checked.checked){
+        total += activityCost;
+        console.log(`updated total is ${total}`);
+        totalElement.textContent = (`Total Cost: $${total}`);
+    }else{
+        total -= activityCost;
+        console.log(`updated total is ${total}`);
+        totalElement.textContent = (`Total Cost: $${total}`);
+    }
 });
-//6. When user clicks on an activity, a running total should display below the list
 
 /**
  * Payment info section
