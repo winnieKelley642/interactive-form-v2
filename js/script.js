@@ -6,6 +6,10 @@ const otherJobRole = document.querySelector('#other-title');
 const jobRoleSelection = document.querySelector('#title');
 const listOfColors = document.querySelector('#color');
 const design = document.querySelector('#design');
+const activityList = document.querySelector('.activities');
+const activities = document.querySelectorAll('.activities input');
+console.log(activities.length);
+console.log(activityList);
 
 //Add placeholders
 nameField.placeholder = 'Please enter your name';
@@ -114,6 +118,31 @@ design.addEventListener('change', (e) =>{
 //5. Don't allow user to select a workshop that is at the same day and time as selected
     //5a. disable checkbox and visually indicate that it is not available. 
     //5b. when user uncheck a checkbox, make sure disabled checkboxes are enabled.
+//add event listener to checkbox:
+activityList.addEventListener('change', (e)=>{
+    let checked = e.target;
+    console.log(checked);
+
+    let selectedDayTime = checked.getAttribute('data-day-and-time');
+    console.log(selectedDayTime);
+
+    console.log(activities.length);
+    for(let i = 0; i < activities.length; i++){
+        console.log(`in for loop for activities`);
+        
+        let activityDayTime = activities[i].getAttribute('data-day-and-time');
+        console.log(`comparing ${selectedDayTime} to ${activityDayTime}`);
+
+        if(selectedDayTime === activityDayTime && checked !== activities[i]){
+            if(checked.checked){
+                console.log(`same day and time`);
+                activities[i].disabled = true;
+            }else{
+                activities[i].disabled = false;
+            }
+        }
+    }
+});
 //6. When user clicks on an activity, a running total should display below the list
 
 /**
