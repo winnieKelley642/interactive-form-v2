@@ -10,6 +10,10 @@ const activityList = document.querySelector('.activities');
 const activities = document.querySelectorAll('.activities input');
 console.log(activities.length);
 console.log(activityList);
+const creditCardDiv = document.querySelector('#credit-card');
+const payPalDiv = document.querySelector('#paypal');
+const bitcoinDiv = document.querySelector('#bitcoin');
+const paymentOption = document.querySelector('#payment');
 
 //Add placeholders
 nameField.placeholder = 'Please enter your name';
@@ -187,12 +191,40 @@ activityList.addEventListener('change', (e)=>{
  * Display payment section based on payment option chosen in the select menu
  */
 //7. Credit card option is selected by default
-    //7a. Display the #credit-card div, hide "PayPal" and "Bitcoin" information.
-//8. PayPal option is selected
-    //8a. Display payPal and hide credit-card and bitcoin information
-//9. Bitcoin option is selected
-    //9a. Display bitcoin and hide credit-card and bitcoin information
+creditCardDiv.hidden = false;
+//7a. Display the #credit-card div, hide "PayPal" and "Bitcoin" information.
+payPalDiv.hidden = true;
+bitcoinDiv.hidden = true;
+
 //Make "Select Payment Method" not a clickable option
+const selectMethodOption = paymentOption[0];
+console.log(selectMethodOption);
+selectMethodOption.disabled = true;
+
+//add event listener to payement option
+paymentOption.addEventListener('change', (e)=>{
+    console.log(paymentOption.value);
+    //8. PayPal option is selected
+    if(paymentOption.value === 'paypal'){
+        //8a. Display payPal and hide credit-card and bitcoin information
+        creditCardDiv.hidden = true;
+        payPalDiv.hidden = false;
+        bitcoinDiv.hidden = true;
+    }
+    //9. Bitcoin option is selected
+    if(paymentOption.value === 'bitcoin'){
+        //9a. Display bitcoin and hide credit-card and bitcoin information
+        creditCardDiv.hidden = true;
+        payPalDiv.hidden = true;
+        bitcoinDiv.hidden = false;
+    } 
+    if(paymentOption.value === 'credit card'){
+        //set credit card div as default
+        creditCardDiv.hidden = false;
+        payPalDiv.hidden = true;
+        bitcoinDiv.hidden = true;
+    }
+});
 
 /**
  * Form validation 
