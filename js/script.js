@@ -54,20 +54,31 @@ for(let i = 0; i < jobRoleSelection.length; i++){
 //3. Hide colour options in the "Color" drop down list until theme is selected from "Design menu"
     //3b. set "Color" field to read "Please select a T-shirt theme".
 //create "Please select a T-shirt theme" option first:
+
+/** Meets secpection:
 const selectThemeFirstElement = document.createElement('option');
 selectThemeFirstElement.setAttribute('value','selectThemeFirst');
 selectThemeFirstElement.innerHTML = 'Please select a T-shirt theme';
 listOfColors.appendChild(selectThemeFirstElement);
+*/
+
+/**exceed expectation
+hide colour drop down list:
+*/
+const hideColorList = document.querySelector('#color');
+console.log(hideColorList);
+hideColorList.hidden = true;
+hideColorList.parentElement.hidden = true;
 
 //set selectThemeFirstElement as what to display and hide the rest
-listOfColors[6].selected = true;
+// listOfColors[6].selected = true;
 listOfColors[0].hidden = true;
 listOfColors[1].hidden = true;
 listOfColors[2].hidden = true;
 listOfColors[3].hidden = true;
 listOfColors[4].hidden = true;
 listOfColors[5].hidden = true;
-listOfColors[6].hidden = false;
+// listOfColors[6].hidden = false;
 
 //4. After theme is selected only display colour options that match the design selected in the "Design" menu.
     //4a. Theme - JS Puns = "Cornflower Blue", "Dark Slate Grey" and "Gold"
@@ -79,17 +90,21 @@ design.addEventListener('change', (e) =>{
     console.log(e.target.value);
     //if user selects selectTheme
     if(e.target.value === 'Select Theme'){
-        listOfColors[6].selected = true;
-        listOfColors[0].hidden = true;
-        listOfColors[1].hidden = true;
-        listOfColors[2].hidden = true;
-        listOfColors[3].hidden = true;
-        listOfColors[4].hidden = true;
-        listOfColors[5].hidden = true;
-        listOfColors[6].hidden = false;
+        hideColorList.hidden = true;
+        hideColorList.parentElement.hidden = true;
+        // listOfColors[6].selected = true;
+        // listOfColors[0].hidden = true;
+        // listOfColors[1].hidden = true;
+        // listOfColors[2].hidden = true;
+        // listOfColors[3].hidden = true;
+        // listOfColors[4].hidden = true;
+        // listOfColors[5].hidden = true;
+        // listOfColors[6].hidden = false;
     }
     //if user selects js puns
     if(e.target.value === 'js puns'){
+        hideColorList.hidden = false;
+        hideColorList.parentElement.hidden = false;
         listOfColors[0].selected = true;
         listOfColors[0].hidden = false;
         listOfColors[1].hidden = false;
@@ -97,10 +112,12 @@ design.addEventListener('change', (e) =>{
         listOfColors[3].hidden = true;
         listOfColors[4].hidden = true;
         listOfColors[5].hidden = true;
-        listOfColors[6].hidden = true;
+        // listOfColors[6].hidden = true;
     }
     //if user selects heart js
     if(e.target.value === 'heart js'){
+        hideColorList.hidden = false;
+        hideColorList.parentElement.hidden = false;
         listOfColors[3].selected = true;
         listOfColors[0].hidden = true;
         listOfColors[1].hidden = true;
@@ -108,7 +125,7 @@ design.addEventListener('change', (e) =>{
         listOfColors[3].hidden = false;
         listOfColors[4].hidden = false;
         listOfColors[5].hidden = false;
-        listOfColors[6].hidden = true;
+        // listOfColors[6].hidden = true;
     }
 });
 /**
