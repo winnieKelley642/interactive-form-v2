@@ -1,7 +1,7 @@
 'use strict'
 //global variables:
-const nameField = document.querySelector('#name');
-const emailField = document.querySelector('#mail');
+const userInputName = document.querySelector('#name');
+const userInputEmail = document.querySelector('#mail');
 const otherJobRole = document.querySelector('#other-title');
 const jobRoleSelection = document.querySelector('#title');
 const listOfColors = document.querySelector('#color');
@@ -14,15 +14,26 @@ const creditCardDiv = document.querySelector('#credit-card');
 const payPalDiv = document.querySelector('#paypal');
 const bitcoinDiv = document.querySelector('#bitcoin');
 const paymentOption = document.querySelector('#payment');
+const submitButton = document.querySelector('button');
+const form = document.querySelector('form');
+console.log(`form = ${form.textContent}`);
+let total = 0;
+
+const creditCardNumber = document.querySelector('#cc-num');
+const zip = document.querySelector('#zip');
+const cvv = document.querySelector('#cvv');
 
 //Add placeholders
-nameField.placeholder = 'Please enter your name';
-emailField.placeholder = 'Please enter a valid email';
+userInputName.placeholder = 'Please enter your name';
+userInputEmail.placeholder = 'Please enter a valid email';
+creditCardNumber.placeholder = '3-16 digits card #';
+zip.placeholder = '5 digits';
+cvv.placeholder = '3 digits';
 
 //1. Set focus on first text field when the page is loads.
     //1a. Should be focused by default
-nameField.focus();
-nameField.style.backgroundColor = 'limegreen';
+userInputName.focus();
+userInputName.style.backgroundColor = 'limegreen';
 
 /**
  * Job Role Selection
@@ -140,7 +151,7 @@ design.addEventListener('change', (e) =>{
     //5b. when user uncheck a checkbox, make sure disabled checkboxes are enabled.
 //6. When user clicks on an activity, a running total should display below the list
 //set total to 0 to start, set this up before evenListener so that it can be called in the event listener.
-let total = 0;
+// let total = 0;
 const totalElement = document.createElement('p');
 totalElement.textContent = (`Total Cost: $${total}`);
 activityList.appendChild(totalElement);
@@ -232,14 +243,78 @@ paymentOption.addEventListener('change', (e)=>{
  * elements. You need to actually create your own custom validation checks and error messages.
  */
 //10. Prevent user from submitting the form if:
+//add event listener to form submit button
+form.addEventListener('submit', (e) =>{
+    // console.log(`name is ${nameField.value}`);
     //10a. name field is blank
-    //10b. email fied must be valid formatted email
-    //10c. at least one checkbox in activities section 
-    //10d. if payment method is credit card:
-        //10d i. credit card number (number between 13 - 16 digits)
-        //10d ii. zip code (5 digit)
-        //10d iii. three number CVV (3 digits)
+    if (userInputName.value === ''){
+        console.log(`name is blank`);
+        //prevent form submittting
+        e.preventDefault();
+    }else{
+        //check to see if name is valid
+        console.log(`user input for name is: ${userInputName.value}`);
+        //upper or lower case letters, no numbers, only one space, possible hypenated last names
+        const validUserInputName = (/^[A-Za-z]+\s?[A-Za-z-]+$/).test(userInputName.value);
+        console.log(`user input name is valid: ${validUserInputName}`);
 
+    }
+
+    //10b. email fied must be valid formatted email
+    // console.log(validUserInputEmail);
+    if(userInputEmail.value === '') {
+        console.log(`email is empty`);
+        e.preventDefault();  
+    }else{
+        //check to see if email is valid
+        console.log(`user input for email is ${userInputEmail.value}`);
+        //any letter or number, @, any number or letters, only one ., and then either 2 or 3 letters (com / net / hk/ tw)
+        const vaildUserInputEmail = (/^[A-Za-z0-9]+[@][A-za-z0-9]+[..][A-za-z]{2,3}$/).test(userInputEmail.value);
+        console.log(`user input email is valid: ${vaildUserInputEmail}`);
+    }
+
+    //10c. at least one checkbox in activities section 
+     //10c. at least one checkbox in activities section 
+     if(total === 0){
+        console.log(`no activities selected`);
+        e.preventDefault();
+    }else{
+        console.log(`activites is valid`);
+    }
+
+    //10d. if payment method is credit card:
+    if(paymentOption.value === 'credit card'){
+        console.log(`validating credit card...`);
+        //10d i. credit card number (number between 13 - 16 digits)
+        const validCreditCardNumber = (/^[0-9]{13,16}$/).test(creditCardNumber.value);
+        console.log(`user input for credit card number is: ${creditCardNumber.value}`)
+        if(validCreditCardNumber){
+            console.log(`credit card number is valid: ${validCreditCardNumber}`);
+        }else{
+            console.log(`credit card number is invalid`);
+            e.preventDefault();
+        }
+        //10d ii. zip code (5 digit)
+        const validZipCode = (/^[0-9]{5}$/).test(zip.value);
+        console.log(`user input for zip code is: ${zip.value}`);
+        if(validZipCode){
+            console.log(`zip code is valid: ${validZipCode}`);
+        }else{
+            console.log(`zip code is invalid`);
+            e.preventDefault();
+
+        }
+        //10d iii. three number CVV (3 digits)
+        const validCvv = (/^[0-9]{3}$/).test(cvv.value);
+        console.log(`user input for cvv is: ${cvv.value}`);
+        if(validCvv){
+            console.log(`cvv is valid: ${validCvv}`);
+        }else{
+            console.log(`cvv is invalid`);
+            e.preventDefault();
+        }
+    }
+});
 /**
  * Form Validation messages
  * Provide indiation when there's a falidation error, border color turns red, red text message 
