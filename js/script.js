@@ -33,7 +33,7 @@ cvv.placeholder = '3 digits';
 //1. Set focus on first text field when the page is loads.
     //1a. Should be focused by default
 userInputName.focus();
-userInputName.style.backgroundColor = 'limegreen';
+// userInputName.style.backgroundColor = 'limegreen';
 
 /**
  * Job Role Selection
