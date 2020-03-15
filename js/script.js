@@ -249,6 +249,9 @@ form.addEventListener('submit', (e) =>{
     //10a. name field is blank
     if (userInputName.value === ''){
         console.log(`name is blank`);
+        userInputName.style.borderStyle = 'none none none solid';
+        userInputName.style.borderWidth = 'thick 20px';
+        userInputName.style.borderColor = 'red';
         //prevent form submittting
         e.preventDefault();
     }else{
@@ -258,12 +261,18 @@ form.addEventListener('submit', (e) =>{
         const validUserInputName = (/^[A-Za-z]+\s?[A-Za-z-]+$/).test(userInputName.value);
         console.log(`user input name is valid: ${validUserInputName}`);
 
+        userInputName.style.borderStyle = 'none none none solid';
+        userInputName.style.borderWidth = 'thick 20px';
+        userInputName.style.borderColor = 'green';
     }
 
     //10b. email fied must be valid formatted email
     // console.log(validUserInputEmail);
     if(userInputEmail.value === '') {
         console.log(`email is empty`);
+        userInputEmail.style.borderStyle = 'none none none solid';
+        userInputEmail.style.borderWidth = 'thick 20px';
+        userInputEmail.style.borderColor = 'red';
         e.preventDefault();  
     }else{
         //check to see if email is valid
@@ -271,15 +280,25 @@ form.addEventListener('submit', (e) =>{
         //any letter or number, @, any number or letters, only one ., and then either 2 or 3 letters (com / net / hk/ tw)
         const vaildUserInputEmail = (/^[A-Za-z0-9]+[@][A-za-z0-9]+[..][A-za-z]{2,3}$/).test(userInputEmail.value);
         console.log(`user input email is valid: ${vaildUserInputEmail}`);
+        
+        userInputEmail.style.borderStyle = 'none none none solid';
+        userInputEmail.style.borderWidth = 'thick 20px';
+        userInputEmail.style.borderColor = 'green';
     }
 
     //10c. at least one checkbox in activities section 
      //10c. at least one checkbox in activities section 
      if(total === 0){
         console.log(`no activities selected`);
+        activityList.style.borderStyle = 'none none none solid';
+        activityList.style.borderWidth = 'thick 20px';
+        activityList.style.borderColor = 'red';
         e.preventDefault();
     }else{
         console.log(`activites is valid`);
+        activityList.style.borderStyle = 'none none none solid';
+        activityList.style.borderWidth = 'thick 20px';
+        activityList.style.borderColor = 'green';
     }
 
     //10d. if payment method is credit card:
@@ -290,8 +309,14 @@ form.addEventListener('submit', (e) =>{
         console.log(`user input for credit card number is: ${creditCardNumber.value}`)
         if(validCreditCardNumber){
             console.log(`credit card number is valid: ${validCreditCardNumber}`);
+            creditCardNumber.style.borderStyle = 'none none none solid';
+            creditCardNumber.style.borderWidth = 'thick 20px';
+            creditCardNumber.style.borderColor = 'green';
         }else{
             console.log(`credit card number is invalid`);
+            creditCardNumber.style.borderStyle = 'none none none solid';
+            creditCardNumber.style.borderWidth = 'thick 20px';
+            creditCardNumber.style.borderColor = 'red';
             e.preventDefault();
         }
         //10d ii. zip code (5 digit)
@@ -299,8 +324,14 @@ form.addEventListener('submit', (e) =>{
         console.log(`user input for zip code is: ${zip.value}`);
         if(validZipCode){
             console.log(`zip code is valid: ${validZipCode}`);
+            zip.style.borderStyle = 'none none none solid';
+            zip.style.borderWidth = 'thick 20px';
+            zip.style.borderColor = 'green';
         }else{
             console.log(`zip code is invalid`);
+            zip.style.borderStyle = 'none none none solid';
+            zip.style.borderWidth = 'thick 20px';
+            zip.style.borderColor = 'red';
             e.preventDefault();
 
         }
@@ -309,8 +340,14 @@ form.addEventListener('submit', (e) =>{
         console.log(`user input for cvv is: ${cvv.value}`);
         if(validCvv){
             console.log(`cvv is valid: ${validCvv}`);
+            cvv.style.borderStyle = 'none none none solid';
+            cvv.style.borderWidth = 'thick 20px';
+            cvv.style.borderColor = 'green';
         }else{
             console.log(`cvv is invalid`);
+            cvv.style.borderStyle = 'none none none solid';
+            cvv.style.borderWidth = 'thick 20px';
+            cvv.style.borderColor = 'red';
             e.preventDefault();
         }
     }
