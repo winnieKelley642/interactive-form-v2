@@ -8,7 +8,7 @@ const listOfColors = document.querySelector('#color');
 const design = document.querySelector('#design');
 const activityList = document.querySelector('.activities');
 const activities = document.querySelectorAll('.activities input');
-console.log(activities.length);
+console.log(activities.length);     
 console.log(activityList);
 const creditCardDiv = document.querySelector('#credit-card');
 const payPalDiv = document.querySelector('#paypal');
@@ -23,9 +23,9 @@ const creditCardNumber = document.querySelector('#cc-num');
 const zip = document.querySelector('#zip');
 const cvv = document.querySelector('#cvv');
 
-//Add placeholders
-userInputName.placeholder = 'Please enter your name';
-userInputEmail.placeholder = 'Please enter a valid email';
+//Add placeholders:
+userInputName.placeholder = 'Please enter your name here';
+userInputEmail.placeholder = 'Please enter a valid emal';
 creditCardNumber.placeholder = '3-16 digits card #';
 zip.placeholder = '5 digits';
 cvv.placeholder = '3 digits';
@@ -211,6 +211,8 @@ bitcoinDiv.hidden = true;
 const selectMethodOption = paymentOption[0];
 console.log(selectMethodOption);
 selectMethodOption.disabled = true;
+const creditCardOption = paymentOption[1];
+creditCardOption.selected = true;
 
 //add event listener to payement option
 paymentOption.addEventListener('change', (e)=>{
@@ -243,52 +245,93 @@ paymentOption.addEventListener('change', (e)=>{
  * elements. You need to actually create your own custom validation checks and error messages.
  */
 //10. Prevent user from submitting the form if:
+//validations:
+//name:
+const validateName = (userInputName) =>{
+    const validUserInputName = (/^[A-Za-z]+\s?[A-Za-z-]+$/).test(userInputName.value);
+    console.log(validUserInputName);
+    return validUserInputName;
+};
+
+//email:
+const validateEmail = (userInputEmail) =>{
+    //check to see if email is valid
+    console.log(`user input for email is ${userInputEmail.value}`);
+    //any letter or number, @, any number or letters, only one ., and then either 2 or 3 letters (com / net / hk/ tw)
+    const vaildUserInputEmail = /^[A-za-z0-9]+@+[A-za-z0-9]+\.[A-za-z]{2,3}$/.test(userInputEmail.value);
+    return vaildUserInputEmail;
+}
 //add event listener to form submit button
+
 form.addEventListener('submit', (e) =>{
     // console.log(`name is ${nameField.value}`);
     //10a. name field is blank
-    if (userInputName.value === ''){
-        console.log(`name is blank`);
+    // if (userInputName.value === ''){
+    //     console.log(`name is blank`);
+    //     userInputName.style.borderStyle = 'none none none solid';
+    //     userInputName.style.borderWidth = 'thick 20px';
+    //     userInputName.style.borderColor = 'red';
+    //     //prevent form submittting
+    //     e.preventDefault();
+    // }else{
+    //     //check to see if name is valid
+    //     console.log(`user input for name is: ${userInputName.value}`);
+    //     //upper or lower case letters, no numbers, only one space, possible hypenated last names
+    //     const validUserInputName = (/^[A-Za-z]+\s?[A-Za-z-]+$/).test(userInputName.value);
+    //     console.log(`user input name is valid: ${validUserInputName}`);
+        
+    //     userInputName.style.borderStyle = 'none none none solid';
+    //     userInputName.style.borderWidth = 'thick 20px';
+    //     userInputName.style.borderColor = 'green';
+    // }
+    validateName(userInputName);
+    console.log(`user input for name is: ${userInputName.value}`);
+
+    if(validateName){
         userInputName.style.borderStyle = 'none none none solid';
         userInputName.style.borderWidth = 'thick 20px';
         userInputName.style.borderColor = 'red';
-        //prevent form submittting
-        e.preventDefault();
-    }else{
-        //check to see if name is valid
-        console.log(`user input for name is: ${userInputName.value}`);
-        //upper or lower case letters, no numbers, only one space, possible hypenated last names
-        const validUserInputName = (/^[A-Za-z]+\s?[A-Za-z-]+$/).test(userInputName.value);
-        console.log(`user input name is valid: ${validUserInputName}`);
-
+    } else{
         userInputName.style.borderStyle = 'none none none solid';
         userInputName.style.borderWidth = 'thick 20px';
         userInputName.style.borderColor = 'green';
+        //prevent form submittting
+        e.preventDefault();
     }
-
     //10b. email fied must be valid formatted email
     // console.log(validUserInputEmail);
-    if(userInputEmail.value === '') {
-        console.log(`email is empty`);
-        userInputEmail.style.borderStyle = 'none none none solid';
-        userInputEmail.style.borderWidth = 'thick 20px';
-        userInputEmail.style.borderColor = 'red';
-        e.preventDefault();  
-    }else{
-        //check to see if email is valid
-        console.log(`user input for email is ${userInputEmail.value}`);
-        //any letter or number, @, any number or letters, only one ., and then either 2 or 3 letters (com / net / hk/ tw)
-        const vaildUserInputEmail = (/^[A-Za-z0-9]+[@][A-za-z0-9]+[..][A-za-z]{2,3}$/).test(userInputEmail.value);
-        console.log(`user input email is valid: ${vaildUserInputEmail}`);
-        
-        userInputEmail.style.borderStyle = 'none none none solid';
-        userInputEmail.style.borderWidth = 'thick 20px';
-        userInputEmail.style.borderColor = 'green';
+    // if(userInputEmail.value === '') {
+    //     console.log(`email is empty`);
+    //     userInputEmail.style.borderStyle = 'none none none solid';
+    //     userInputEmail.style.borderWidth = 'thick 20px';
+    //     userInputEmail.style.borderColor = 'red';
+    //     e.preventDefault();  
+    // }else{
+    //     //check to see if email is valid
+    //     console.log(`user input for email is ${userInputEmail.value}`);
+    //     //any letter or number, @, any number or letters, only one ., and then either 2 or 3 letters (com / net / hk/ tw)
+    //     const vaildUserInputEmail = (/^[A-Za-z0-9]+[@][A-za-z0-9]+[..][A-za-z]{2,3}$/).test(userInputEmail.value);
+    //     console.log(`user input email is valid: ${vaildUserInputEmail}`);
+    //     userInputEmail.style.borderStyle = 'none none none solid';
+    //     userInputEmail.style.borderWidth = 'thick 20px';
+    //     userInputEmail.style.borderColor = 'green';
+    // }
+    validateEmail(userInputEmail);
+    console.log(`user input for email is: ${userInputEmail.value}`);
+    if(validateEmail){
+        userInputName.style.borderStyle = 'none none none solid';
+        userInputName.style.borderWidth = 'thick 20px';
+        userInputName.style.borderColor = 'red';
+    } else{
+        userInputName.style.borderStyle = 'none none none solid';
+        userInputName.style.borderWidth = 'thick 20px';
+        userInputName.style.borderColor = 'green';
+        //prevent form submittting
+        e.preventDefault();
     }
-
+    
     //10c. at least one checkbox in activities section 
-     //10c. at least one checkbox in activities section 
-     if(total === 0){
+    if(total === 0){
         console.log(`no activities selected`);
         activityList.style.borderStyle = 'none none none solid';
         activityList.style.borderWidth = 'thick 20px';
@@ -300,7 +343,6 @@ form.addEventListener('submit', (e) =>{
         activityList.style.borderWidth = 'thick 20px';
         activityList.style.borderColor = 'green';
     }
-
     //10d. if payment method is credit card:
     if(paymentOption.value === 'credit card'){
         console.log(`validating credit card...`);
@@ -309,14 +351,17 @@ form.addEventListener('submit', (e) =>{
         console.log(`user input for credit card number is: ${creditCardNumber.value}`)
         if(validCreditCardNumber){
             console.log(`credit card number is valid: ${validCreditCardNumber}`);
+
             creditCardNumber.style.borderStyle = 'none none none solid';
             creditCardNumber.style.borderWidth = 'thick 20px';
             creditCardNumber.style.borderColor = 'green';
         }else{
             console.log(`credit card number is invalid`);
+
             creditCardNumber.style.borderStyle = 'none none none solid';
             creditCardNumber.style.borderWidth = 'thick 20px';
             creditCardNumber.style.borderColor = 'red';
+
             e.preventDefault();
         }
         //10d ii. zip code (5 digit)
@@ -324,14 +369,17 @@ form.addEventListener('submit', (e) =>{
         console.log(`user input for zip code is: ${zip.value}`);
         if(validZipCode){
             console.log(`zip code is valid: ${validZipCode}`);
+
             zip.style.borderStyle = 'none none none solid';
             zip.style.borderWidth = 'thick 20px';
             zip.style.borderColor = 'green';
         }else{
             console.log(`zip code is invalid`);
+
             zip.style.borderStyle = 'none none none solid';
             zip.style.borderWidth = 'thick 20px';
             zip.style.borderColor = 'red';
+
             e.preventDefault();
 
         }
@@ -340,16 +388,23 @@ form.addEventListener('submit', (e) =>{
         console.log(`user input for cvv is: ${cvv.value}`);
         if(validCvv){
             console.log(`cvv is valid: ${validCvv}`);
+
             cvv.style.borderStyle = 'none none none solid';
             cvv.style.borderWidth = 'thick 20px';
             cvv.style.borderColor = 'green';
         }else{
             console.log(`cvv is invalid`);
+
             cvv.style.borderStyle = 'none none none solid';
             cvv.style.borderWidth = 'thick 20px';
             cvv.style.borderColor = 'red';
+
             e.preventDefault();
         }
+
+        //if other, must type something in input
+        //if user did not select shirt
+        //if user did not select payment method
     }
 });
 /**
