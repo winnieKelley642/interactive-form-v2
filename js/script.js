@@ -249,20 +249,26 @@ paymentOption.addEventListener('change', (e)=>{
 //name:
 const validateName = (userInputName) =>{
     const validUserInputName = (/^[A-Za-z]+\s?[A-Za-z-]+$/).test(userInputName.value);
-    console.log(validUserInputName);
+    console.log(`name is valid: ${validUserInputName}`);
     return validUserInputName;
 };
 
-//email:
+// email:
 const validateEmail = (userInputEmail) =>{
     //check to see if email is valid
     console.log(`user input for email is ${userInputEmail.value}`);
     //any letter or number, @, any number or letters, only one ., and then either 2 or 3 letters (com / net / hk/ tw)
-    const vaildUserInputEmail = /^[A-za-z0-9]+@+[A-za-z0-9]+\.[A-za-z]{2,3}$/.test(userInputEmail.value);
+    const vaildUserInputEmail = (/^[A-za-z0-9]+@+[A-za-z0-9]+\.[A-za-z]{2,3}$/).test(userInputEmail.value);
+    console.log(`email is valid: ${vaildUserInputEmail}`);
     return vaildUserInputEmail;
 }
+// //key up for name:
+// userInputName.addEventListener('keyup', (e)){
+//     let keyUpName = e.target;
+//     console.log(`User pressed: ${keyUpName.value}`);
+//     validateName(keyUpName);
+// }
 //add event listener to form submit button
-
 form.addEventListener('submit', (e) =>{
     // console.log(`name is ${nameField.value}`);
     //10a. name field is blank
@@ -284,10 +290,11 @@ form.addEventListener('submit', (e) =>{
     //     userInputName.style.borderWidth = 'thick 20px';
     //     userInputName.style.borderColor = 'green';
     // }
+
     validateName(userInputName);
     console.log(`user input for name is: ${userInputName.value}`);
 
-    if(validateName){
+    if(userInputName.value === '' && validateName){
         userInputName.style.borderStyle = 'none none none solid';
         userInputName.style.borderWidth = 'thick 20px';
         userInputName.style.borderColor = 'red';
@@ -315,21 +322,21 @@ form.addEventListener('submit', (e) =>{
     //     userInputEmail.style.borderStyle = 'none none none solid';
     //     userInputEmail.style.borderWidth = 'thick 20px';
     //     userInputEmail.style.borderColor = 'green';
-    // }
+    // // }
     validateEmail(userInputEmail);
     console.log(`user input for email is: ${userInputEmail.value}`);
-    if(validateEmail){
-        userInputName.style.borderStyle = 'none none none solid';
-        userInputName.style.borderWidth = 'thick 20px';
-        userInputName.style.borderColor = 'red';
+    if(userInputEmail.value === '' && validateEmail){
+        userInputEmail.style.borderStyle = 'none none none solid';
+        userInputEmail.style.borderWidth = 'thick 20px';
+        userInputEmail.style.borderColor = 'red';
     } else{
-        userInputName.style.borderStyle = 'none none none solid';
-        userInputName.style.borderWidth = 'thick 20px';
-        userInputName.style.borderColor = 'green';
+        userInputEmail.style.borderStyle = 'none none none solid';
+        userInputEmail.style.borderWidth = 'thick 20px';
+        userInputEmail.style.borderColor = 'green';
         //prevent form submittting
         e.preventDefault();
     }
-    
+
     //10c. at least one checkbox in activities section 
     if(total === 0){
         console.log(`no activities selected`);
@@ -407,6 +414,7 @@ form.addEventListener('submit', (e) =>{
         //if user did not select payment method
     }
 });
+
 /**
  * Form Validation messages
  * Provide indiation when there's a falidation error, border color turns red, red text message 
