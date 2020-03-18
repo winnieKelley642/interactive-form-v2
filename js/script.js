@@ -8,16 +8,14 @@ const listOfColors = document.querySelector('#color');
 const design = document.querySelector('#design');
 const activityList = document.querySelector('.activities');
 const activities = document.querySelectorAll('.activities input');
-console.log(activities.length);     
-console.log(activityList);
 const creditCardDiv = document.querySelector('#credit-card');
 const payPalDiv = document.querySelector('#paypal');
 const bitcoinDiv = document.querySelector('#bitcoin');
 const paymentOption = document.querySelector('#payment');
 const submitButton = document.querySelector('button');
 const form = document.querySelector('form');
-console.log(`form = ${form.textContent}`);
 let total = 0;
+const shirtSelectionDiv = document.querySelector('.shirt-box');
 
 const creditCardNumber = document.querySelector('#cc-num');
 const zip = document.querySelector('#zip');
@@ -42,17 +40,14 @@ userInputName.focus();
  */
 //Do not display the other text field
 otherJobRole.style.display = 'none';
-console.log(jobRoleSelection);
 
 //2. In the Job Role drop down menu, when "Other" is selected
 //check for what the user selected
 for(let i = 0; i < jobRoleSelection.length; i++){
     //add event listener to change of dropdown selection
     jobRoleSelection.addEventListener('change', (e) => {
-        console.log(`user's selction of job role is ${jobRoleSelection.value}`);
         if(e.target.value === 'other'){
             //2a. Display text field
-            console.log(`in other job role display loop`);
             otherJobRole.style.display = 'block';
         } else{
             //hide the text field if not 'other'
@@ -81,7 +76,6 @@ listOfColors.appendChild(selectThemeFirstElement);
 hide colour drop down list:
 */
 const hideColorList = document.querySelector('#color');
-console.log(hideColorList);
 hideColorList.hidden = true;
 hideColorList.parentElement.hidden = true;
 
@@ -101,8 +95,6 @@ listOfColors[5].hidden = true;
     //4c. Update theme and colours as theme is selected.
 //add event listener to design drop down menu
 design.addEventListener('change', (e) =>{
-    console.log(`design chosen is: ${design.value}`);
-    console.log(e.target.value);
     //if user selects selectTheme
     if(e.target.value === 'Select Theme'){
         hideColorList.hidden = true;
@@ -159,18 +151,13 @@ activityList.appendChild(totalElement);
 //add event listener to checkbox:
 activityList.addEventListener('change', (e)=>{
     let checked = e.target;
-    console.log(checked);
 
     let selectedDayTime = checked.getAttribute('data-day-and-time');
-    console.log(selectedDayTime);
 
     //dissable and enabling the right activities
-    console.log(activities.length);
     for(let i = 0; i < activities.length; i++){
-        console.log(`in for loop for activities`);
         
         let activityDayTime = activities[i].getAttribute('data-day-and-time');
-        console.log(`comparing ${selectedDayTime} to ${activityDayTime}`);
 
         if(selectedDayTime === activityDayTime && checked !== activities[i]){
             if(checked.checked){
@@ -183,16 +170,11 @@ activityList.addEventListener('change', (e)=>{
     }
     //calculate cost
     let activityCost = parseInt(checked.getAttribute('data-cost'));
-    console.log(`cost is ${activityCost}`);
-    console.log(`current total is ${total}`);
-
     if(checked.checked){
         total += activityCost;
-        console.log(`updated total is ${total}`);
         totalElement.textContent = (`Total Cost: $${total}`);
     }else{
         total -= activityCost;
-        console.log(`updated total is ${total}`);
         totalElement.textContent = (`Total Cost: $${total}`);
     }
 });
@@ -209,14 +191,12 @@ bitcoinDiv.hidden = true;
 
 //Make "Select Payment Method" not a clickable option
 const selectMethodOption = paymentOption[0];
-console.log(selectMethodOption);
 selectMethodOption.disabled = true;
 const creditCardOption = paymentOption[1];
 creditCardOption.selected = true;
 
 //add event listener to payement option
 paymentOption.addEventListener('change', (e)=>{
-    console.log(paymentOption.value);
     //8. PayPal option is selected
     if(paymentOption.value === 'paypal'){
         //8a. Display payPal and hide credit-card and bitcoin information
@@ -244,11 +224,13 @@ paymentOption.addEventListener('change', (e)=>{
  * NOTE: Don't rely on the built in HTML5 validation by adding the required attribute to your DOM
  * elements. You need to actually create your own custom validation checks and error messages.
  */
+
 //10. Prevent user from submitting the form if:
+
 //validations:
 //name:
 const validateName = (userInputName) =>{
-    const validUserInputName = (/^[A-Za-z]+\s?[A-Za-z-]+$/).test(userInputName.value);
+    const validUserInputName = (/^[A-Za-z]+[\s]?[A-Za-z-]+$/).test(userInputName.value);
     console.log(`name is valid: ${validUserInputName}`);
     return validUserInputName;
 };
@@ -262,79 +244,75 @@ const validateEmail = (userInputEmail) =>{
     console.log(`email is valid: ${vaildUserInputEmail}`);
     return vaildUserInputEmail;
 }
-// //key up for name:
-// userInputName.addEventListener('keyup', (e)){
-//     let keyUpName = e.target;
-//     console.log(`User pressed: ${keyUpName.value}`);
-//     validateName(keyUpName);
-// }
+
+//credit card number:
+const validateCreditCardNumber = (creditCardNumber) =>{
+    const validCreditCardNumber = (/^[0-9]{13,16}$/).test(creditCardNumber.value);
+    console.log(`user's input has ${validCreditCardNumber.length} numbers`);
+    return validCreditCardNumber;
+}
+
+//zip code:
+const validateZipCode = (zip) =>{
+    const validZipCode = (/^[0-9]{5}$/).test(zip.value);
+    console.log(`user input for zip code is: ${zip.value}`);
+    return validZipCode;
+}
+
+//cvv:
+const validateCvv = (cvv) =>{
+    const validCvv = (/^[0-9]{3}$/).test(cvv.value);
+    console.log(`user input for cvv is: ${cvv.value}`);
+    return validCvv
+}
+
+//other job role 
+const validateOtherJobRole = (otherJobRole) => {
+    const validOtherJonRole = (/^\d\w\s$/).test(otherJobRole.value);
+    console.log(`user input for other job role is $(otherJobRole.value)`);
+    return validateOtherJobRole;
+}
+
+//keyup error messaging
+userInputName.addEventListener('keyup', (e) =>{
+    const userInput = e.target;
+    console.log(`user input is: ${userInput.value}`);
+    const nameMessageDiv = document.createElement('div');
+    userInputName.appendChild(nameMessageDiv);
+    if(userInputName.value === ''){
+        nameMessageDiv.textContent = (`Please enter your name`);
+    } else{
+        nameMessageDiv.textContent = (`Hi, ${userInput.value}`);
+    }
+});
 //add event listener to form submit button
 form.addEventListener('submit', (e) =>{
-    // console.log(`name is ${nameField.value}`);
-    //10a. name field is blank
-    // if (userInputName.value === ''){
-    //     console.log(`name is blank`);
-    //     userInputName.style.borderStyle = 'none none none solid';
-    //     userInputName.style.borderWidth = 'thick 20px';
-    //     userInputName.style.borderColor = 'red';
-    //     //prevent form submittting
-    //     e.preventDefault();
-    // }else{
-    //     //check to see if name is valid
-    //     console.log(`user input for name is: ${userInputName.value}`);
-    //     //upper or lower case letters, no numbers, only one space, possible hypenated last names
-    //     const validUserInputName = (/^[A-Za-z]+\s?[A-Za-z-]+$/).test(userInputName.value);
-    //     console.log(`user input name is valid: ${validUserInputName}`);
-        
-    //     userInputName.style.borderStyle = 'none none none solid';
-    //     userInputName.style.borderWidth = 'thick 20px';
-    //     userInputName.style.borderColor = 'green';
-    // }
-
-    validateName(userInputName);
+    //10a. name field is blank or does not validate
     console.log(`user input for name is: ${userInputName.value}`);
-
-    if(userInputName.value === '' && validateName){
+    if(userInputName.value === '' || validateName(userInputName) === false){
         userInputName.style.borderStyle = 'none none none solid';
         userInputName.style.borderWidth = 'thick 20px';
         userInputName.style.borderColor = 'red';
-    } else{
+        //prevent form submittting
+        e.preventDefault();
+    }else{
         userInputName.style.borderStyle = 'none none none solid';
         userInputName.style.borderWidth = 'thick 20px';
         userInputName.style.borderColor = 'green';
-        //prevent form submittting
-        e.preventDefault();
     }
+
     //10b. email fied must be valid formatted email
-    // console.log(validUserInputEmail);
-    // if(userInputEmail.value === '') {
-    //     console.log(`email is empty`);
-    //     userInputEmail.style.borderStyle = 'none none none solid';
-    //     userInputEmail.style.borderWidth = 'thick 20px';
-    //     userInputEmail.style.borderColor = 'red';
-    //     e.preventDefault();  
-    // }else{
-    //     //check to see if email is valid
-    //     console.log(`user input for email is ${userInputEmail.value}`);
-    //     //any letter or number, @, any number or letters, only one ., and then either 2 or 3 letters (com / net / hk/ tw)
-    //     const vaildUserInputEmail = (/^[A-Za-z0-9]+[@][A-za-z0-9]+[..][A-za-z]{2,3}$/).test(userInputEmail.value);
-    //     console.log(`user input email is valid: ${vaildUserInputEmail}`);
-    //     userInputEmail.style.borderStyle = 'none none none solid';
-    //     userInputEmail.style.borderWidth = 'thick 20px';
-    //     userInputEmail.style.borderColor = 'green';
-    // // }
-    validateEmail(userInputEmail);
     console.log(`user input for email is: ${userInputEmail.value}`);
-    if(userInputEmail.value === '' && validateEmail){
+    if(userInputEmail.value === '' || validateEmail(userInputEmail) === false){
         userInputEmail.style.borderStyle = 'none none none solid';
         userInputEmail.style.borderWidth = 'thick 20px';
         userInputEmail.style.borderColor = 'red';
-    } else{
+        //prevent from submitting
+        e.preventDefault();
+    }else{
         userInputEmail.style.borderStyle = 'none none none solid';
         userInputEmail.style.borderWidth = 'thick 20px';
         userInputEmail.style.borderColor = 'green';
-        //prevent form submittting
-        e.preventDefault();
     }
 
     //10c. at least one checkbox in activities section 
@@ -343,6 +321,7 @@ form.addEventListener('submit', (e) =>{
         activityList.style.borderStyle = 'none none none solid';
         activityList.style.borderWidth = 'thick 20px';
         activityList.style.borderColor = 'red';
+        //prevent form submittting
         e.preventDefault();
     }else{
         console.log(`activites is valid`);
@@ -350,68 +329,71 @@ form.addEventListener('submit', (e) =>{
         activityList.style.borderWidth = 'thick 20px';
         activityList.style.borderColor = 'green';
     }
+
     //10d. if payment method is credit card:
     if(paymentOption.value === 'credit card'){
         console.log(`validating credit card...`);
         //10d i. credit card number (number between 13 - 16 digits)
-        const validCreditCardNumber = (/^[0-9]{13,16}$/).test(creditCardNumber.value);
-        console.log(`user input for credit card number is: ${creditCardNumber.value}`)
-        if(validCreditCardNumber){
-            console.log(`credit card number is valid: ${validCreditCardNumber}`);
-
-            creditCardNumber.style.borderStyle = 'none none none solid';
-            creditCardNumber.style.borderWidth = 'thick 20px';
-            creditCardNumber.style.borderColor = 'green';
-        }else{
-            console.log(`credit card number is invalid`);
-
+        if(creditCardNumber.value === '' || validateCreditCardNumber(creditCardNumber) === false){
             creditCardNumber.style.borderStyle = 'none none none solid';
             creditCardNumber.style.borderWidth = 'thick 20px';
             creditCardNumber.style.borderColor = 'red';
-
+            //prevent form submittting
+            e.preventDefault();
+        }else{
+            creditCardNumber.style.borderStyle = 'none none none solid';
+            creditCardNumber.style.borderWidth = 'thick 20px';
+            creditCardNumber.style.borderColor = 'green';
+            //prevent from submitting
             e.preventDefault();
         }
+
         //10d ii. zip code (5 digit)
-        const validZipCode = (/^[0-9]{5}$/).test(zip.value);
-        console.log(`user input for zip code is: ${zip.value}`);
-        if(validZipCode){
-            console.log(`zip code is valid: ${validZipCode}`);
-
-            zip.style.borderStyle = 'none none none solid';
-            zip.style.borderWidth = 'thick 20px';
-            zip.style.borderColor = 'green';
-        }else{
-            console.log(`zip code is invalid`);
-
+        if(zip.value === '' || validateZipCode(zip) === false){
             zip.style.borderStyle = 'none none none solid';
             zip.style.borderWidth = 'thick 20px';
             zip.style.borderColor = 'red';
-
+            //prevent form submittting
             e.preventDefault();
+        }else{
+            zip.style.borderStyle = 'none none none solid';
+            zip.style.borderWidth = 'thick 20px';
+            zip.style.borderColor = 'green';
 
         }
+
         //10d iii. three number CVV (3 digits)
-        const validCvv = (/^[0-9]{3}$/).test(cvv.value);
-        console.log(`user input for cvv is: ${cvv.value}`);
-        if(validCvv){
-            console.log(`cvv is valid: ${validCvv}`);
-
-            cvv.style.borderStyle = 'none none none solid';
-            cvv.style.borderWidth = 'thick 20px';
-            cvv.style.borderColor = 'green';
-        }else{
-            console.log(`cvv is invalid`);
-
+        if(cvv.length === '' || validateCvv(cvv) === false){
             cvv.style.borderStyle = 'none none none solid';
             cvv.style.borderWidth = 'thick 20px';
             cvv.style.borderColor = 'red';
-
+            //prevent form submittting
             e.preventDefault();
+        }else{
+            cvv.style.borderStyle = 'none none none solid';
+            cvv.style.borderWidth = 'thick 20px';
+            cvv.style.borderColor = 'green';
         }
-
-        //if other, must type something in input
-        //if user did not select shirt
-        //if user did not select payment method
+    }
+    //if other, must type something in input
+    if(otherJobRole.value === '' || validateOtherJobRole(otherJobRole) === false){
+        otherJobRole.style.borderStyle = 'none none none solid';
+        otherJobRole.style.borderWidth = 'thick 20px';
+        otherJobRole.style.borderColor = 'red';
+        //prevent form submittting
+        e.preventDefault();
+    }else{
+        otherJobRole.style.borderStyle = 'none none none solid';
+        otherJobRole.style.borderWidth = 'thick 20px';
+        otherJobRole.style.borderColor = 'green';
+    }
+    
+    //if user did not select shirt
+    if(design.value === 'Select Theme'){
+        shirtSelectionDiv.style.backgroundColor = 'red';
+        e.preventDefault();
+    }else{
+        shirtSelectionDiv.style.backgroundColor = 'green';
     }
 });
 
