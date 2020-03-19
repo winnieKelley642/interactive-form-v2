@@ -323,7 +323,7 @@ creditCardNumber.addEventListener('keyup', (e) =>{
     } else{
         creditCardNumberMessageDiv.textContent = 'Valid zip code';
         creditCardNumberMessageDiv.style.color = 'green';
-        creditCardNumberMessageSpan.hidden = true;
+        // creditCardNumberMessageSpan.hidden = true;
     }
 }); 
 
@@ -376,7 +376,7 @@ cvv.addEventListener('keyup', (e) =>{
     } else{
         cvvMessageDiv.textContent = 'Valid zip code';
         cvvMessageDiv.style.color = 'green';
-        cvvMssageSpan.hidden = true;
+        cvvMessageSpan.hidden = true;
     }
 }); 
 //add event listener to form submit button
