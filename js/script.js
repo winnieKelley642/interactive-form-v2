@@ -312,20 +312,32 @@ creditCardNumber.addEventListener('keyup', (e) =>{
     const userInput = e.target;
     console.log(`user input is: ${userInput.value}`)
     if(validateCreditCardNumber(userInput) === false){
-        creditCardNumberMessageDiv.textContent = 'Please enter a valid credit card number';
+        creditCardNumberMessageDiv.textContent = 'Please enter a valid zip code';
         creditCardNumberMessageDiv.style.color = 'red';
-        for(let i = 0; i < creditCardNumber.value.length; i++){
-            console.log(i);
-            const atLeastNumber = (13 - (i+1));
-            console.log(`at least: ${atLeastNumber}`);
-            creditCardNumberMessageSpan.textContent = (`You need at least ${atLeastNumber} more numbers`);
+        let tooManyNumber = userInput.value.length - 16;
+
+        if(validateCreditCardNumber(userInput) === false){
+            creditCardNumberMessageDiv.textContent = 'Please enter a valid zip code';
+            creditCardNumberMessageDiv.style.color = 'red';
+            if(userInput.value.length < 13 || userInput.value.length > 16){
+                let atLeastNumber = (13 - (userInput.value.length));                
+                console.log(`at least: ${atLeastNumber}`);
+                if(atLeastNumber > 0){
+                    creditCardNumberMessageSpan.textContent = (`You need at least ${atLeastNumber} more number(s)`);
+                }
+            }
         }
-    } else{
+    }
+    if(validateCreditCardNumber(userInput)){
         creditCardNumberMessageDiv.textContent = 'Valid zip code';
         creditCardNumberMessageDiv.style.color = 'green';
-        // creditCardNumberMessageSpan.hidden = true;
+        creditCardNumberMessageSpan.hidden = true;
     }
-}); 
+    if(tooManyNumber > 0){
+        creditCardNumberMessageSpan.hidden = false;
+        creditCardNumberMessageSpan.textContent = (`You have ${tooManyNumber} too many number(s)`)
+    }
+});
 
 const zipMessageDiv = document.createElement('div');
 getLabel[15].appendChild(zipMessageDiv);
@@ -337,48 +349,63 @@ zip.addEventListener('keyup', (e) =>{
     if(validateZipCode(userInput) === false){
         zipMessageDiv.textContent = 'Please enter a valid zip code';
         zipMessageDiv.style.color = 'red';
-        for(let i = 0; i < zip.value.length; i++){
-            console.log(i);
-            const atLeastNumber = (5 - (i+1));
-            console.log(`at least: ${atLeastNumber}`);
-            zipMessageSpan.textContent = (`You need at least ${atLeastNumber} more numbers`);
-            console.log(`user length: ${userInput.value.length}`);
+        let tooManyNumber = userInput.value.length - 5;
+
+        if(validateZipCode(userInput) === false){
+            zipMessageDiv.textContent = 'Please enter a valid zip code';
+            zipMessageDiv.style.color = 'red';
+            if(userInput.value.length <= 5){
+                let atLeastNumber = (5 - (userInput.value.length));                
+                console.log(`at least: ${atLeastNumber}`);
+                if(atLeastNumber > 0){
+                    zipMessageSpan.textContent = (`You need at least ${atLeastNumber} more number(s)`);
+                }
+            }
         }
-    } else{
+        if(validateZipCode(userInput) === false && tooManyNumber > 0){
+            zipMessageSpan.textContent = (`You have ${tooManyNumber} too many number(s)`)
+        }
+    }
+    if(validateZipCode(userInput)=== true){
         zipMessageDiv.textContent = 'Valid zip code';
         zipMessageDiv.style.color = 'green';
-        zipMessageSpan.hidden = true;            
-        if(userInput.value.length > zip.value.length){
-            const tooManyNumber = (userInput.value.length - 5);
-            console.log(`toomanynumber = ${tooManyNumber}`);
-            zipMessageSpan.hidden = false;
-            zipMessageSpan.textContent = (`You have ${tooManyNumber} too many number(s)`);
-        }
+        zipMessageSpan.hidden = true;
     }
 });
 
 const cvvMessageDiv = document.createElement('div');
 getLabel[16].appendChild(cvvMessageDiv);
-const cvvMssageSpan = document.createElement('span');
-getLabel[16].appendChild(cvvMssageSpan);
+const cvvMessageSpan = document.createElement('span');
+getLabel[16].appendChild(cvvMessageSpan);
 cvv.addEventListener('keyup', (e) =>{
     const userInput = e.target;
-    console.log(`user input is: ${userInput.value}`)
+    console.log(`user input is: ${userInput.value}`);
+    let tooManyNumber = userInput.value.length - 3;
+
     if(validateCvv(userInput) === false){
         cvvMessageDiv.textContent = 'Please enter a valid cvv';
         cvvMessageDiv.style.color = 'red';
-        for(let i = 0; i < cvv.value.length; i++){
-            console.log(i);
-            const atLeastNumber = (3 - (i+1));
+        console.log(userInput.value.length);
+        console.log(cvv.value.length);
+        if(userInput.value.length <= 3){
+            let atLeastNumber = (3 - (userInput.value.length));
+            
             console.log(`at least: ${atLeastNumber}`);
-            cvvMssageSpan.textContent = (`You need at least ${atLeastNumber} more numbers`);
+            if(atLeastNumber > 0){
+                cvvMessageSpan.textContent = (`You need at least ${atLeastNumber} more number(s)`);
+            }
         }
-    } else{
-        cvvMessageDiv.textContent = 'Valid zip code';
+    }
+    if(validateCvv(userInput)){
+        cvvMessageDiv.textContent = 'Valid cvv';
         cvvMessageDiv.style.color = 'green';
         cvvMessageSpan.hidden = true;
     }
+    if(tooManyNumber > 0){
+        cvvMessageSpan.textContent = (`You have ${tooManyNumber} too many number(s)`)
+    }
 }); 
+
 //add event listener to form submit button
 form.addEventListener('submit', (e) =>{
     //10a. name field is blank or does not validate
