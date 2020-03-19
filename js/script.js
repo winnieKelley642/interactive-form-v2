@@ -274,17 +274,111 @@ const validateOtherJobRole = (otherJobRole) => {
 }
 
 //keyup error messaging
+const getLabel = document.querySelectorAll('label');
+
+const nameMessageDiv = document.createElement('div');
+getLabel[0].appendChild(nameMessageDiv);
 userInputName.addEventListener('keyup', (e) =>{
     const userInput = e.target;
     console.log(`user input is: ${userInput.value}`);
-    const nameMessageDiv = document.createElement('div');
-    userInputName.appendChild(nameMessageDiv);
     if(userInputName.value === ''){
-        nameMessageDiv.textContent = (`Please enter your name`);
+        nameMessageDiv.textContent = 'Please enter a valid name';
+        nameMessageDiv.style.color = 'red';
     } else{
         nameMessageDiv.textContent = (`Hi, ${userInput.value}`);
+        nameMessageDiv.style.color = 'green';
     }
 });
+
+const emailMessageDiv = document.createElement('div');
+getLabel[1].appendChild(emailMessageDiv);
+userInputEmail.addEventListener('keyup', (e) =>{
+    const userInput = e.target;
+    console.log(`user input is: ${userInput.value}`)
+    if(validateEmail(userInput) === false){
+        emailMessageDiv.textContent = 'Please enter a valid email';
+        emailMessageDiv.style.color = 'red';
+    } else{
+        emailMessageDiv.textContent = 'Valid email';
+        emailMessageDiv.style.color = 'green';
+    }
+}); 
+
+const creditCardNumberMessageDiv = document.createElement('div');
+getLabel[14].appendChild(creditCardNumberMessageDiv);
+const creditCardNumberMessageSpan = document.createElement('span');
+getLabel[14].appendChild(creditCardNumberMessageSpan);
+creditCardNumber.addEventListener('keyup', (e) =>{
+    const userInput = e.target;
+    console.log(`user input is: ${userInput.value}`)
+    if(validateCreditCardNumber(userInput) === false){
+        creditCardNumberMessageDiv.textContent = 'Please enter a valid credit card number';
+        creditCardNumberMessageDiv.style.color = 'red';
+        for(let i = 0; i < creditCardNumber.value.length; i++){
+            console.log(i);
+            const atLeastNumber = (13 - (i+1));
+            console.log(`at least: ${atLeastNumber}`);
+            creditCardNumberMessageSpan.textContent = (`You need at least ${atLeastNumber} more numbers`);
+        }
+    } else{
+        creditCardNumberMessageDiv.textContent = 'Valid zip code';
+        creditCardNumberMessageDiv.style.color = 'green';
+        creditCardNumberMessageSpan.hidden = true;
+    }
+}); 
+
+const zipMessageDiv = document.createElement('div');
+getLabel[15].appendChild(zipMessageDiv);
+const zipMessageSpan = document.createElement('span');
+getLabel[15].appendChild(zipMessageSpan);
+zip.addEventListener('keyup', (e) =>{
+    const userInput = e.target;
+    console.log(`user input is: ${userInput.value}`)
+    if(validateZipCode(userInput) === false){
+        zipMessageDiv.textContent = 'Please enter a valid zip code';
+        zipMessageDiv.style.color = 'red';
+        for(let i = 0; i < zip.value.length; i++){
+            console.log(i);
+            const atLeastNumber = (5 - (i+1));
+            console.log(`at least: ${atLeastNumber}`);
+            zipMessageSpan.textContent = (`You need at least ${atLeastNumber} more numbers`);
+            console.log(`user length: ${userInput.value.length}`);
+        }
+    } else{
+        zipMessageDiv.textContent = 'Valid zip code';
+        zipMessageDiv.style.color = 'green';
+        zipMessageSpan.hidden = true;            
+        if(userInput.value.length > zip.value.length){
+            const tooManyNumber = (userInput.value.length - 5);
+            console.log(`toomanynumber = ${tooManyNumber}`);
+            zipMessageSpan.hidden = false;
+            zipMessageSpan.textContent = (`You have ${tooManyNumber} too many number(s)`);
+        }
+    }
+});
+
+const cvvMessageDiv = document.createElement('div');
+getLabel[16].appendChild(cvvMessageDiv);
+const cvvMssageSpan = document.createElement('span');
+getLabel[16].appendChild(cvvMssageSpan);
+cvv.addEventListener('keyup', (e) =>{
+    const userInput = e.target;
+    console.log(`user input is: ${userInput.value}`)
+    if(validateCvv(userInput) === false){
+        cvvMessageDiv.textContent = 'Please enter a valid cvv';
+        cvvMessageDiv.style.color = 'red';
+        for(let i = 0; i < cvv.value.length; i++){
+            console.log(i);
+            const atLeastNumber = (3 - (i+1));
+            console.log(`at least: ${atLeastNumber}`);
+            cvvMssageSpan.textContent = (`You need at least ${atLeastNumber} more numbers`);
+        }
+    } else{
+        cvvMessageDiv.textContent = 'Valid zip code';
+        cvvMessageDiv.style.color = 'green';
+        cvvMssageSpan.hidden = true;
+    }
+}); 
 //add event listener to form submit button
 form.addEventListener('submit', (e) =>{
     //10a. name field is blank or does not validate
@@ -344,8 +438,6 @@ form.addEventListener('submit', (e) =>{
             creditCardNumber.style.borderStyle = 'none none none solid';
             creditCardNumber.style.borderWidth = 'thick 20px';
             creditCardNumber.style.borderColor = 'green';
-            //prevent from submitting
-            e.preventDefault();
         }
 
         //10d ii. zip code (5 digit)
@@ -375,19 +467,24 @@ form.addEventListener('submit', (e) =>{
             cvv.style.borderColor = 'green';
         }
     }
-    //if other, must type something in input
+    
+    // if other, must type something in input
+    if(jobRoleSelection.value === 'other'){
     if(otherJobRole.value === '' || validateOtherJobRole(otherJobRole) === false){
         otherJobRole.style.borderStyle = 'none none none solid';
         otherJobRole.style.borderWidth = 'thick 20px';
         otherJobRole.style.borderColor = 'red';
-        //prevent form submittting
-        e.preventDefault();
     }else{
         otherJobRole.style.borderStyle = 'none none none solid';
         otherJobRole.style.borderWidth = 'thick 20px';
         otherJobRole.style.borderColor = 'green';
     }
-    
+
+    //if other is blank prevent from submitting
+    if(otherJobRole.value === ''){
+        e.preventDefault();
+    }
+    }
     //if user did not select shirt
     if(design.value === 'Select Theme'){
         shirtSelectionDiv.style.backgroundColor = 'red';
@@ -396,6 +493,7 @@ form.addEventListener('submit', (e) =>{
         shirtSelectionDiv.style.backgroundColor = 'green';
     }
 });
+
 
 /**
  * Form Validation messages
