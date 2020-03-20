@@ -23,7 +23,7 @@ const getLabel = document.querySelectorAll('label');
 
 //Add placeholders:
 userInputName.placeholder = 'Please enter your name here';
-userInputEmail.placeholder = 'Please enter a valid emal';
+userInputEmail.placeholder = 'Please enter a valid email';
 creditCardNumber.placeholder = '3-16 digits card #';
 zip.placeholder = '5 digits';
 cvv.placeholder = '3 digits';
@@ -251,9 +251,17 @@ userInputName.addEventListener('keyup', (e) =>{
     //store user's input
     const userInput = e.target;
     if(userInputName.value === '' || validateName(userInput) === false){
+        userInputName.style.borderStyle = 'none none none solid';
+        userInputName.style.borderWidth = 'thick 20px';
+        userInputName.style.borderColor = 'red';
+
         nameMessageDiv.textContent = 'Please enter a valid name';
         nameMessageDiv.style.color = 'red';
     } else{
+        userInputName.style.borderStyle = 'none none none solid';
+        userInputName.style.borderWidth = 'thick 20px';
+        userInputName.style.borderColor = 'green';
+
         nameMessageDiv.textContent = (`Hi, ${userInput.value}`);
         nameMessageDiv.style.color = 'green';
     }
@@ -268,9 +276,17 @@ userInputEmail.addEventListener('keyup', (e) =>{
     //sroe user's input
     const userInput = e.target;
     if(validateEmail(userInput) === false){
+        userInputEmail.style.borderStyle = 'none none none solid';
+        userInputEmail.style.borderWidth = 'thick 20px';
+        userInputEmail.style.borderColor = 'red';
+
         emailMessageDiv.textContent = 'Please enter a valid email';
         emailMessageDiv.style.color = 'red';
     } else{
+        userInputEmail.style.borderStyle = 'none none none solid';
+        userInputEmail.style.borderWidth = 'thick 20px';
+        userInputEmail.style.borderColor = 'green';
+
         emailMessageDiv.textContent = 'Valid email';
         emailMessageDiv.style.color = 'green';
     }
@@ -290,9 +306,13 @@ creditCardNumber.addEventListener('keyup', (e) =>{
     //store number to display to users for how many over the valid number user has
     let tooManyNumber = userInput.value.length - 16;
     if(validateCreditCardNumber(userInput) === false){
+        creditCardNumber.style.borderStyle = 'none none none solid';
+        creditCardNumber.style.borderWidth = 'thick 20px';
+        creditCardNumber.style.borderColor = 'red';
+
         creditCardNumberMessageDiv.textContent = 'Please enter a valid credit card number';
         creditCardNumberMessageDiv.style.color = 'red';
-        if(userInput.value.length < 13 || userInput.value.length > 16){
+        if(userInput.value.length <= 13 || userInput.value.length >= 16){
             //store number to display to users how many more number(s) is needed to make it valid
             let atLeastNumber = (13 - (userInput.value.length));
             if(atLeastNumber > 0){
@@ -301,10 +321,19 @@ creditCardNumber.addEventListener('keyup', (e) =>{
         }
     }
     if(validateCreditCardNumber(userInput)){
+        creditCardNumber.style.borderStyle = 'none none none solid';
+        creditCardNumber.style.borderWidth = 'thick 20px';
+        creditCardNumber.style.borderColor = 'green';
+
         creditCardNumberMessageDiv.textContent = 'Valid zip code';
         creditCardNumberMessageDiv.style.color = 'green';
+        creditCardNumberMessageSpan.hidden = true;
     }
     if(tooManyNumber > 0){
+        creditCardNumber.style.borderStyle = 'none none none solid';
+        creditCardNumber.style.borderWidth = 'thick 20px';
+        creditCardNumber.style.borderColor = 'red';
+
         creditCardNumberMessageSpan.hidden = false;
         creditCardNumberMessageSpan.textContent = (`You have ${tooManyNumber} too many number(s)`)
     }
@@ -323,6 +352,10 @@ zip.addEventListener('keyup', (e) =>{
     //store number to display to users for how many over the valid number user has
     let tooManyNumber = userInput.value.length - 5;
     if(validateZipCode(userInput) === false){
+        zip.style.borderStyle = 'none none none solid';
+        zip.style.borderWidth = 'thick 20px';
+        zip.style.borderColor = 'red';
+        
         zipMessageDiv.textContent = 'Please enter a valid zip code';
         zipMessageDiv.style.color = 'red';
         if(userInput.value.length <= 5){
@@ -333,11 +366,20 @@ zip.addEventListener('keyup', (e) =>{
         }
     }
     if(validateZipCode(userInput)=== true){
+        zip.style.borderStyle = 'none none none solid';
+        zip.style.borderWidth = 'thick 20px';
+        zip.style.borderColor = 'green';
+
         zipMessageDiv.textContent = 'Valid zip code';
         zipMessageDiv.style.color = 'green';
-        // zipMessageSpan.hidden = true;
+        zipMessageSpan.hidden = true;
     }
     if(validateZipCode(userInput) === false && tooManyNumber > 0){
+        zip.style.borderStyle = 'none none none solid';
+        zip.style.borderWidth = 'thick 20px';
+        zip.style.borderColor = 'red';
+
+        zipMessageSpan.hidden = false;
         zipMessageSpan.textContent = (`You have ${tooManyNumber} too many number(s)`)
     }
 });
@@ -355,6 +397,10 @@ cvv.addEventListener('keyup', (e) =>{
     //store number to display to users for how many over the valid number user has
     let tooManyNumber = userInput.value.length - 3;
     if(validateCvv(userInput) === false){
+        cvv.style.borderStyle = 'none none none solid';
+        cvv.style.borderWidth = 'thick 20px';
+        cvv.style.borderColor = 'red';
+
         cvvMessageDiv.textContent = 'Please enter a valid cvv';
         cvvMessageDiv.style.color = 'red';
         if(userInput.value.length <= 3){
@@ -365,9 +411,20 @@ cvv.addEventListener('keyup', (e) =>{
         }
     }
     if(validateCvv(userInput)){
+        cvv.style.borderStyle = 'none none none solid';
+        cvv.style.borderWidth = 'thick 20px';
+        cvv.style.borderColor = 'green';
+
         cvvMessageDiv.textContent = 'Valid cvv';
-        cvvMessageDiv.style.color = 'green';    }
+        cvvMessageDiv.style.color = 'green';    
+        cvvMessageSpan.hidden = true;
+    }
     if(tooManyNumber > 0){
+        cvv.style.borderStyle = 'none none none solid';
+        cvv.style.borderWidth = 'thick 20px';
+        cvv.style.borderColor = 'red';
+
+        cvvMessageSpan.hidden = false;
         cvvMessageSpan.textContent = (`You have ${tooManyNumber} too many number(s)`)
     }
 }); 
