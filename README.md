@@ -31,3 +31,5 @@ for exceeds, I have made it so that the following happens on key up:
         3ai. if the number is blank or invalid, it will show that it is invalid
         3ai. once the user start typing , it will let user know how many more numbers or how many numbers they are over for the valid amount. 
         3aiii. if it is valid, it will let the usaer konow.
+
+Also, colour drop down menu is hidden until theme is selected for t-shirt.
