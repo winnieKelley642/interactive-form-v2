@@ -16,10 +16,10 @@ const submitButton = document.querySelector('button');
 const form = document.querySelector('form');
 let total = 0;
 const shirtSelectionDiv = document.querySelector('.shirt-box');
-
 const creditCardNumber = document.querySelector('#cc-num');
 const zip = document.querySelector('#zip');
 const cvv = document.querySelector('#cvv');
+const getLabel = document.querySelectorAll('label');
 
 //Add placeholders:
 userInputName.placeholder = 'Please enter your name here';
@@ -31,7 +31,6 @@ cvv.placeholder = '3 digits';
 //1. Set focus on first text field when the page is loads.
     //1a. Should be focused by default
 userInputName.focus();
-// userInputName.style.backgroundColor = 'limegreen';
 
 /**
  * Job Role Selection
@@ -62,16 +61,7 @@ for(let i = 0; i < jobRoleSelection.length; i++){
  * T-Shirt Info
  */
 //3. Hide colour options in the "Color" drop down list until theme is selected from "Design menu"
-    //3b. set "Color" field to read "Please select a T-shirt theme".
-//create "Please select a T-shirt theme" option first:
-
-/** Meets secpection:
-const selectThemeFirstElement = document.createElement('option');
-selectThemeFirstElement.setAttribute('value','selectThemeFirst');
-selectThemeFirstElement.innerHTML = 'Please select a T-shirt theme';
-listOfColors.appendChild(selectThemeFirstElement);
-*/
-
+    //3b. set "Color" field to read "Please select a T-shirt theme"
 /**exceed expectation
 hide colour drop down list:
 */
@@ -80,14 +70,12 @@ hideColorList.hidden = true;
 hideColorList.parentElement.hidden = true;
 
 //set selectThemeFirstElement as what to display and hide the rest
-// listOfColors[6].selected = true;
 listOfColors[0].hidden = true;
 listOfColors[1].hidden = true;
 listOfColors[2].hidden = true;
 listOfColors[3].hidden = true;
 listOfColors[4].hidden = true;
 listOfColors[5].hidden = true;
-// listOfColors[6].hidden = false;
 
 //4. After theme is selected only display colour options that match the design selected in the "Design" menu.
     //4a. Theme - JS Puns = "Cornflower Blue", "Dark Slate Grey" and "Gold"
@@ -99,14 +87,6 @@ design.addEventListener('change', (e) =>{
     if(e.target.value === 'Select Theme'){
         hideColorList.hidden = true;
         hideColorList.parentElement.hidden = true;
-        // listOfColors[6].selected = true;
-        // listOfColors[0].hidden = true;
-        // listOfColors[1].hidden = true;
-        // listOfColors[2].hidden = true;
-        // listOfColors[3].hidden = true;
-        // listOfColors[4].hidden = true;
-        // listOfColors[5].hidden = true;
-        // listOfColors[6].hidden = false;
     }
     //if user selects js puns
     if(e.target.value === 'js puns'){
@@ -119,7 +99,6 @@ design.addEventListener('change', (e) =>{
         listOfColors[3].hidden = true;
         listOfColors[4].hidden = true;
         listOfColors[5].hidden = true;
-        // listOfColors[6].hidden = true;
     }
     //if user selects heart js
     if(e.target.value === 'heart js'){
@@ -132,9 +111,9 @@ design.addEventListener('change', (e) =>{
         listOfColors[3].hidden = false;
         listOfColors[4].hidden = false;
         listOfColors[5].hidden = false;
-        // listOfColors[6].hidden = true;
     }
 });
+
 /**
  * Register for Activities section
  */
@@ -143,7 +122,6 @@ design.addEventListener('change', (e) =>{
     //5b. when user uncheck a checkbox, make sure disabled checkboxes are enabled.
 //6. When user clicks on an activity, a running total should display below the list
 //set total to 0 to start, set this up before evenListener so that it can be called in the event listener.
-// let total = 0;
 const totalElement = document.createElement('p');
 totalElement.textContent = (`Total Cost: $${total}`);
 activityList.appendChild(totalElement);
@@ -151,17 +129,13 @@ activityList.appendChild(totalElement);
 //add event listener to checkbox:
 activityList.addEventListener('change', (e)=>{
     let checked = e.target;
-
     let selectedDayTime = checked.getAttribute('data-day-and-time');
 
     //dissable and enabling the right activities
     for(let i = 0; i < activities.length; i++){
-        
         let activityDayTime = activities[i].getAttribute('data-day-and-time');
-
         if(selectedDayTime === activityDayTime && checked !== activities[i]){
             if(checked.checked){
-                console.log(`same day and time`);
                 activities[i].disabled = true;
             }else{
                 activities[i].disabled = false;
@@ -230,58 +204,53 @@ paymentOption.addEventListener('change', (e)=>{
 //validations:
 //name:
 const validateName = (userInputName) =>{
-    const validUserInputName = (/^[A-Za-z]+[\s]?[A-Za-z-]+$/).test(userInputName.value);
-    console.log(`name is valid: ${validUserInputName}`);
+    const validUserInputName = (/^[A-Za-z]*[\s]?[A-Za-z-]*$/).test(userInputName.value);
     return validUserInputName;
 };
 
 // email:
 const validateEmail = (userInputEmail) =>{
     //check to see if email is valid
-    console.log(`user input for email is ${userInputEmail.value}`);
     //any letter or number, @, any number or letters, only one ., and then either 2 or 3 letters (com / net / hk/ tw)
     const vaildUserInputEmail = (/^[A-za-z0-9]+@+[A-za-z0-9]+\.[A-za-z]{2,3}$/).test(userInputEmail.value);
-    console.log(`email is valid: ${vaildUserInputEmail}`);
     return vaildUserInputEmail;
 }
 
 //credit card number:
 const validateCreditCardNumber = (creditCardNumber) =>{
     const validCreditCardNumber = (/^[0-9]{13,16}$/).test(creditCardNumber.value);
-    console.log(`user's input has ${validCreditCardNumber.length} numbers`);
     return validCreditCardNumber;
 }
 
 //zip code:
 const validateZipCode = (zip) =>{
     const validZipCode = (/^[0-9]{5}$/).test(zip.value);
-    console.log(`user input for zip code is: ${zip.value}`);
     return validZipCode;
 }
 
 //cvv:
 const validateCvv = (cvv) =>{
     const validCvv = (/^[0-9]{3}$/).test(cvv.value);
-    console.log(`user input for cvv is: ${cvv.value}`);
     return validCvv
 }
 
 //other job role 
 const validateOtherJobRole = (otherJobRole) => {
     const validOtherJonRole = (/^\d\w\s$/).test(otherJobRole.value);
-    console.log(`user input for other job role is $(otherJobRole.value)`);
     return validateOtherJobRole;
 }
 
 //keyup error messaging
-const getLabel = document.querySelectorAll('label');
-
+//name:
+//create div for name error message
 const nameMessageDiv = document.createElement('div');
 getLabel[0].appendChild(nameMessageDiv);
+nameMessageDiv.hidden = false;
+//create event listneter
 userInputName.addEventListener('keyup', (e) =>{
+    //store user's input
     const userInput = e.target;
-    console.log(`user input is: ${userInput.value}`);
-    if(userInputName.value === ''){
+    if(userInputName.value === '' || validateName(userInput) === false){
         nameMessageDiv.textContent = 'Please enter a valid name';
         nameMessageDiv.style.color = 'red';
     } else{
@@ -290,11 +259,14 @@ userInputName.addEventListener('keyup', (e) =>{
     }
 });
 
+//email:
+//create div for email error messaing
 const emailMessageDiv = document.createElement('div');
 getLabel[1].appendChild(emailMessageDiv);
+//add event listneter
 userInputEmail.addEventListener('keyup', (e) =>{
+    //sroe user's input
     const userInput = e.target;
-    console.log(`user input is: ${userInput.value}`)
     if(validateEmail(userInput) === false){
         emailMessageDiv.textContent = 'Please enter a valid email';
         emailMessageDiv.style.color = 'red';
@@ -304,34 +276,33 @@ userInputEmail.addEventListener('keyup', (e) =>{
     }
 }); 
 
+//credit card:
+//credit card number:
+//create div for credit card number error messaging
 const creditCardNumberMessageDiv = document.createElement('div');
 getLabel[14].appendChild(creditCardNumberMessageDiv);
+//create number too many / too little numbers span
 const creditCardNumberMessageSpan = document.createElement('span');
 getLabel[14].appendChild(creditCardNumberMessageSpan);
+//add event listener
 creditCardNumber.addEventListener('keyup', (e) =>{
     const userInput = e.target;
-    console.log(`user input is: ${userInput.value}`)
+    //store number to display to users for how many over the valid number user has
+    let tooManyNumber = userInput.value.length - 16;
     if(validateCreditCardNumber(userInput) === false){
-        creditCardNumberMessageDiv.textContent = 'Please enter a valid zip code';
+        creditCardNumberMessageDiv.textContent = 'Please enter a valid credit card number';
         creditCardNumberMessageDiv.style.color = 'red';
-        let tooManyNumber = userInput.value.length - 16;
-
-        if(validateCreditCardNumber(userInput) === false){
-            creditCardNumberMessageDiv.textContent = 'Please enter a valid zip code';
-            creditCardNumberMessageDiv.style.color = 'red';
-            if(userInput.value.length < 13 || userInput.value.length > 16){
-                let atLeastNumber = (13 - (userInput.value.length));                
-                console.log(`at least: ${atLeastNumber}`);
-                if(atLeastNumber > 0){
-                    creditCardNumberMessageSpan.textContent = (`You need at least ${atLeastNumber} more number(s)`);
-                }
+        if(userInput.value.length < 13 || userInput.value.length > 16){
+            //store number to display to users how many more number(s) is needed to make it valid
+            let atLeastNumber = (13 - (userInput.value.length));
+            if(atLeastNumber > 0){
+                creditCardNumberMessageSpan.textContent = (`You need at least ${atLeastNumber} more number(s)`);
             }
         }
     }
     if(validateCreditCardNumber(userInput)){
         creditCardNumberMessageDiv.textContent = 'Valid zip code';
         creditCardNumberMessageDiv.style.color = 'green';
-        creditCardNumberMessageSpan.hidden = true;
     }
     if(tooManyNumber > 0){
         creditCardNumberMessageSpan.hidden = false;
@@ -339,58 +310,55 @@ creditCardNumber.addEventListener('keyup', (e) =>{
     }
 });
 
+//zip code:
+//create div for zip code error messaging
 const zipMessageDiv = document.createElement('div');
 getLabel[15].appendChild(zipMessageDiv);
+//create number too many / too little numbers span
 const zipMessageSpan = document.createElement('span');
 getLabel[15].appendChild(zipMessageSpan);
+//add event listener
 zip.addEventListener('keyup', (e) =>{
-    const userInput = e.target;
-    console.log(`user input is: ${userInput.value}`)
+    const userInput = e.target
+    //store number to display to users for how many over the valid number user has
+    let tooManyNumber = userInput.value.length - 5;
     if(validateZipCode(userInput) === false){
         zipMessageDiv.textContent = 'Please enter a valid zip code';
         zipMessageDiv.style.color = 'red';
-        let tooManyNumber = userInput.value.length - 5;
-
-        if(validateZipCode(userInput) === false){
-            zipMessageDiv.textContent = 'Please enter a valid zip code';
-            zipMessageDiv.style.color = 'red';
-            if(userInput.value.length <= 5){
-                let atLeastNumber = (5 - (userInput.value.length));                
-                console.log(`at least: ${atLeastNumber}`);
-                if(atLeastNumber > 0){
-                    zipMessageSpan.textContent = (`You need at least ${atLeastNumber} more number(s)`);
-                }
+        if(userInput.value.length <= 5){
+            let atLeastNumber = (5 - (userInput.value.length));                
+            if(atLeastNumber > 0){
+                zipMessageSpan.textContent = (`You need at least ${atLeastNumber} more number(s)`);
             }
-        }
-        if(validateZipCode(userInput) === false && tooManyNumber > 0){
-            zipMessageSpan.textContent = (`You have ${tooManyNumber} too many number(s)`)
         }
     }
     if(validateZipCode(userInput)=== true){
         zipMessageDiv.textContent = 'Valid zip code';
         zipMessageDiv.style.color = 'green';
-        zipMessageSpan.hidden = true;
+        // zipMessageSpan.hidden = true;
+    }
+    if(validateZipCode(userInput) === false && tooManyNumber > 0){
+        zipMessageSpan.textContent = (`You have ${tooManyNumber} too many number(s)`)
     }
 });
 
+//cvv:
+//create div for cvv error messaging
 const cvvMessageDiv = document.createElement('div');
 getLabel[16].appendChild(cvvMessageDiv);
+//create number too many / too little numbers span
 const cvvMessageSpan = document.createElement('span');
 getLabel[16].appendChild(cvvMessageSpan);
+//add event listener
 cvv.addEventListener('keyup', (e) =>{
     const userInput = e.target;
-    console.log(`user input is: ${userInput.value}`);
+    //store number to display to users for how many over the valid number user has
     let tooManyNumber = userInput.value.length - 3;
-
     if(validateCvv(userInput) === false){
         cvvMessageDiv.textContent = 'Please enter a valid cvv';
         cvvMessageDiv.style.color = 'red';
-        console.log(userInput.value.length);
-        console.log(cvv.value.length);
         if(userInput.value.length <= 3){
             let atLeastNumber = (3 - (userInput.value.length));
-            
-            console.log(`at least: ${atLeastNumber}`);
             if(atLeastNumber > 0){
                 cvvMessageSpan.textContent = (`You need at least ${atLeastNumber} more number(s)`);
             }
@@ -398,9 +366,7 @@ cvv.addEventListener('keyup', (e) =>{
     }
     if(validateCvv(userInput)){
         cvvMessageDiv.textContent = 'Valid cvv';
-        cvvMessageDiv.style.color = 'green';
-        cvvMessageSpan.hidden = true;
-    }
+        cvvMessageDiv.style.color = 'green';    }
     if(tooManyNumber > 0){
         cvvMessageSpan.textContent = (`You have ${tooManyNumber} too many number(s)`)
     }
@@ -409,7 +375,6 @@ cvv.addEventListener('keyup', (e) =>{
 //add event listener to form submit button
 form.addEventListener('submit', (e) =>{
     //10a. name field is blank or does not validate
-    console.log(`user input for name is: ${userInputName.value}`);
     if(userInputName.value === '' || validateName(userInputName) === false){
         userInputName.style.borderStyle = 'none none none solid';
         userInputName.style.borderWidth = 'thick 20px';
@@ -423,7 +388,6 @@ form.addEventListener('submit', (e) =>{
     }
 
     //10b. email fied must be valid formatted email
-    console.log(`user input for email is: ${userInputEmail.value}`);
     if(userInputEmail.value === '' || validateEmail(userInputEmail) === false){
         userInputEmail.style.borderStyle = 'none none none solid';
         userInputEmail.style.borderWidth = 'thick 20px';
@@ -438,14 +402,12 @@ form.addEventListener('submit', (e) =>{
 
     //10c. at least one checkbox in activities section 
     if(total === 0){
-        console.log(`no activities selected`);
         activityList.style.borderStyle = 'none none none solid';
         activityList.style.borderWidth = 'thick 20px';
         activityList.style.borderColor = 'red';
         //prevent form submittting
         e.preventDefault();
     }else{
-        console.log(`activites is valid`);
         activityList.style.borderStyle = 'none none none solid';
         activityList.style.borderWidth = 'thick 20px';
         activityList.style.borderColor = 'green';
@@ -453,7 +415,6 @@ form.addEventListener('submit', (e) =>{
 
     //10d. if payment method is credit card:
     if(paymentOption.value === 'credit card'){
-        console.log(`validating credit card...`);
         //10d i. credit card number (number between 13 - 16 digits)
         if(creditCardNumber.value === '' || validateCreditCardNumber(creditCardNumber) === false){
             creditCardNumber.style.borderStyle = 'none none none solid';
@@ -497,20 +458,19 @@ form.addEventListener('submit', (e) =>{
     
     // if other, must type something in input
     if(jobRoleSelection.value === 'other'){
-    if(otherJobRole.value === '' || validateOtherJobRole(otherJobRole) === false){
-        otherJobRole.style.borderStyle = 'none none none solid';
-        otherJobRole.style.borderWidth = 'thick 20px';
-        otherJobRole.style.borderColor = 'red';
-    }else{
-        otherJobRole.style.borderStyle = 'none none none solid';
-        otherJobRole.style.borderWidth = 'thick 20px';
-        otherJobRole.style.borderColor = 'green';
-    }
-
-    //if other is blank prevent from submitting
-    if(otherJobRole.value === ''){
-        e.preventDefault();
-    }
+        if(otherJobRole.value === '' || validateOtherJobRole(otherJobRole) === false){
+            otherJobRole.style.borderStyle = 'none none none solid';
+            otherJobRole.style.borderWidth = 'thick 20px';
+            otherJobRole.style.borderColor = 'red';
+        }else{
+            otherJobRole.style.borderStyle = 'none none none solid';
+            otherJobRole.style.borderWidth = 'thick 20px';
+            otherJobRole.style.borderColor = 'green';
+        }
+        //if other is blank prevent from submitting, only if it is blank, because it is not a required validation for this project
+        if(otherJobRole.value === ''){
+            e.preventDefault();
+        }
     }
     //if user did not select shirt
     if(design.value === 'Select Theme'){
@@ -520,32 +480,3 @@ form.addEventListener('submit', (e) =>{
         shirtSelectionDiv.style.backgroundColor = 'green';
     }
 });
-
-
-/**
- * Form Validation messages
- * Provide indiation when there's a falidation error, border color turns red, red text message 
- * appears near the field
- * 
- * Error messages or indicatons should NOT BE VISIBLE by default. only upon submission or after user 
- * interaction.
- * 
- * Do not use alerts
-*/
-//11. These needs to have obvious error messages:
-    //11a. Name field
-    //11b. Email field
-    //11c. Register for activities (at least 1 selected)
-    //11d. Credit card number
-    //11e. zip code
-    //11f. CVV code
-
-    //if user is submiting empty form each of the above items should have error indication / message.
-
-/**
- * Should work without js
- * croos browswer check
- * allowed to change css
- */
-
- /** Now this should meet expectations */
